@@ -1,0 +1,50 @@
+<mat-card class = "tp-card-login">
+        
+                <mat-card-header class="tp-card-header">
+                                <div class="login-title" >
+                <mat-card-title *ngIf="!currentUser.mustChange" class="tp-card-title">Login</mat-card-title>
+                <mat-card-title *ngIf="currentUser.mustChange" class="tp-card-title">Change Password</mat-card-title>
+                <mat-card-subtitle *ngIf="!currentUser.mustChange" class="tp-card-title">
+                        registry webapp
+                </mat-card-subtitle>
+                <mat-card-subtitle *ngIf="currentUser.mustChange" class="tp-card-title">
+                        min 8 char, an uppercase, a lowercase and a special character
+                </mat-card-subtitle>
+                </div>
+                </mat-card-header>
+        
+        <mat-card-content>
+                <div *ngIf="!currentUser.mustChange" class="account-container">
+                        <form  [formGroup]="userForm" class="tab">
+                                        <div class="form_container form-group "> 
+                                                <mat-form-field style="width: 80%; margin-top: 1%;">
+                                                        <input autocomplete="off" [class.is-invalid]="userForm.errors" formControlName="email" class="form-control" matInput  placeholder="email" required>                              
+                                                </mat-form-field>
+                                                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                                        <input type="password" autocomplete="off" [class.is-invalid]="userForm.errors" formControlName="password" class="form-control" matInput  placeholder="password" required>                                   
+                                                </mat-form-field>
+
+                                                <mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+
+                                                <button type="submit" [disabled]="!userForm.valid" title="Login"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="primary" (click)="login()" >Login</button>
+                                   
+                                        </div>
+                        </form>
+                        
+                </div>
+                <div *ngIf="currentUser.mustChange" class="account-container">
+                        <form  [formGroup]="newPwd" class="tab">
+                                <div class="form_container form-group "> 
+                                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                                <input autocomplete="off" [class.is-invalid]="newPwd.errors" formControlName="password" class="form-control" matInput  placeholder="new password " required>                              
+                                        </mat-form-field>
+                                      
+                                <button type="submit" [disabled]="!newPwd.valid" title="Login"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="primary" (click)="changePWD()" >Ok</button>
+                            
+                           
+                        </div>
+                </form>
+                                            
+                </div>
+        </mat-card-content>
+     </mat-card>

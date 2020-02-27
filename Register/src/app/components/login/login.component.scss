@@ -1,0 +1,26 @@
+.account-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 70%;
+    padding-left: 15%;
+    padding-top: 5%;
+  }
+.tp-card-login{
+    margin-left: 40%;
+    margin-right: 40%;
+    min-width: 18%;
+    margin-bottom: 16%;
+    margin-top: 15%;
+}
+.tp-card-title{
+    text-align: center;
+}
+.login-title{
+    margin-left: -32px;
+    width: 100% !important;
+    text-align: center !important;
+}
+.tp-card-header{
+    text-align: center !important;
+}

@@ -1,0 +1,80 @@
+.tp-card{
+    
+    margin: 16px;
+    -webkit-box-shadow: 10px 10px 29px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 29px -5px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 29px -5px rgba(0,0,0,0.75);
+}
+
+mat-card{
+    height: 80% !important;
+    width: 95% !important;
+    text-align: center !important;
+}
+.myHeader {
+    color: #3f51b5;
+    display: block !important;
+    text-align: center;;
+}
+ .grid-home{
+     margin: 1% !important;
+ }
+ canvas{
+    width: 450px !important;
+    height: 225px !important;
+    display: inline !important;
+ }
+ .chart-home{
+     text-align: center;
+ }
+ .title{
+     font-size: 5vh;
+ }
+ .biggest{
+    height: 90.5% !important;
+    margin-top: 1%;
+    margin-bottom: auto;
+ }
+ .home_title{
+     color: #3f51b5;
+ }
+ //resize img and chart
+ .firstSizeChar{
+    width: 370px !important;
+    height: 167px !important;
+ }
+ .secondSizeChar{
+    width: 223px !important;
+    height: 133px !important;  
+}
+.thirdSizeChar{
+   display: none !important; 
+}
+.firstSizeImg{
+    width: 40%;
+}
+.secondSizeImg{
+    display: none;
+}
+.thirdSizeImg{
+    display: none  
+ }
+ //todo
+ table{
+    width: 100%;
+    td{
+        text-align: left;
+    }
+ }
+ .table-height{
+    margin-top: 1%;
+    max-height: 25rem !important;
+    /* height: 30rem; */
+    overflow: auto ;
+}
+.todo-del{
+    color: red;
+}
+.todo-del:hover{
+    cursor: pointer;
+}

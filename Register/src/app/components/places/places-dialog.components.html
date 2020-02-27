@@ -1,0 +1,81 @@
+<div class="place-dialog" *ngIf="!isNew">
+    
+    <h1 mat-dialog-title> Location : {{data.name}}</h1>
+    <div mat-dialog-content>
+      <mat-tab-group>
+            <mat-tab label="Location" > 
+              <form [formGroup]="newLocForm" class="tab">
+                <div class="form_container form-group ">
+                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                <input [class.is-invalid]="newLocForm.errors" formControlName="location" class="form-control" matInput  placeholder="name" required>                                    
+                        </mat-form-field>            
+                        <mat-form-field  style="width: 80%; margin-top: 1%;">
+                          <input [class.is-invalid]="newLocForm.errors" formControlName="address" class="form-control" matInput  placeholder="address" required>      
+                        </mat-form-field>
+                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                <mat-select  placeholder="type" required formControlName="type" class="form-control" required [class.is-invalid]="newLocForm.errors">
+                                        <mat-option *ngFor = "let opt of locationTypes" [value] = "opt.type_id" >
+                                                {{opt.type}}
+                                        </mat-option>   
+                                </mat-select>
+                                    
+                        </mat-form-field>
+                        
+    
+                    <button [disabled]="!newLocForm.valid" title="edit location"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%; margin-right: 5px;"  mat-raised-button color="accent" (click)="modifyLoc()" >Edit</button>
+                    <button [disabled]="!newLocForm.valid" title="delete location"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="warn" (click)="deleteLoc()">Delete</button>
+    
+  
+                </div>
+            </form>
+            </mat-tab>
+          </mat-tab-group>
+    </div>
+    
+    </div>
+    <div class="place-dialog" *ngIf="isNew">
+    
+      <mat-horizontal-stepper [linear]="isLinear" #stepper >
+        <mat-step [stepControl]="LocationForm1">
+          <form [formGroup]="LocationForm1">
+            <ng-template matStepLabel>Activity Name</ng-template>
+            <mat-form-field  style="width: 80%; margin-top: 1%;">
+              <input autocomplete="off"  formControlName="location" class="form-control" matInput  placeholder="name" required>                                    
+            </mat-form-field>
+                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                        <input autocomplete="off"  formControlName="address" class="form-control" matInput  placeholder="address" required>                                    
+                </mat-form-field>
+            <div>
+              <button mat-raised-button color="primary" matStepperNext [disabled]="!LocationForm1.valid">Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="LocationForm2" >
+                <form [formGroup]="LocationForm2">
+                        <ng-template matStepLabel>Location</ng-template>  
+                        <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                <mat-select   placeholder = "location"  formControlName= "type" name = "location" required>
+                                        <mat-option *ngFor = "let opt of locationTypes" [value] = "opt.type_id">
+                                        {{opt.type}}
+                                        </mat-option>
+                                </mat-select>   
+                        </mat-form-field>
+                        <div>
+                          <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important; margin-top: 18px;">Back</button>
+                          <button  mat-raised-button color="primary" matStepperNext  >Next</button>
+                        </div>
+                      </form>
+                
+        </mat-step>
+<mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          You are now done.
+          <div>
+            <button mat-button matStepperPrevious style="margin-right: 9px !important;">Back</button>
+            <button mat-button (click)="stepper.reset()" style="margin-right: 9px !important;">Reset</button>    
+            <button  mat-raised-button color="primary" [disabled]="!LocationForm1.valid && !LocationForm2.valid" (click)="createNewLoc()">Add</button>      
+        </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+      </div>
+    

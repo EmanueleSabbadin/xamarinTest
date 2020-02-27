@@ -1,0 +1,50 @@
+.tp-card{
+    margin: 20px;
+    -webkit-box-shadow: 10px 10px 29px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 29px -5px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 29px -5px rgba(0,0,0,0.75);
+};
+table {
+    width: 100%;
+  }
+.students-tab{
+    margin-bottom: 0px !important;
+}
+.student-footer{
+    text-align: end;
+}
+.student-add{
+    margin:10px
+}
+.more-icons:hover{
+    cursor: pointer;
+}
+//dialog student form
+.tab{
+    text-align: center;
+}
+.form-group{
+    padding-top:45px
+}
+//account form
+.account-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  //form account test
+  .account-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    padding-left: 25%;
+    padding-top: 10%;
+  }
+  mat-form-field{
+      margin-right: 1% !important;
+  }

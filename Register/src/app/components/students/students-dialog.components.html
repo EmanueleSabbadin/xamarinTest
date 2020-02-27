@@ -1,0 +1,239 @@
+<div class="student-dialog">
+<div *ngIf="!newStudent && newStudent!=null">
+        <h1 *ngIf="!newStudent" mat-dialog-title> Student: {{data.matricola}}</h1>
+        <h1 *ngIf="newStudent" mat-dialog-title> New student</h1>
+        <div mat-dialog-content>
+        <mat-tab-group>
+                <mat-tab label="Student" > 
+                        <form [formGroup]="studentForm" class="tab">
+                                <div class="form_container form-group ">                               
+                
+                                        <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                        
+                                        <input autocomplete="none" [class.is-invalid]="studentForm.errors" formControlName="name" class="form-control" matInput  placeholder="name" required>                                    
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                                <input autocomplete="off" [class.is-invalid]="studentForm.errors" formControlName="surname" class="form-control" matInput  placeholder="surname" required>                                   
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                                <input autocomplete="off" [class.is-invalid]="studentForm.errors" formControlName="course" class="form-control" matInput  placeholder="course" required>                                   
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                                <mat-select [class.is-invalid]="studentForm.errors"  placeholder = "account"  formControlName= "user" name = "user">
+                                                        <mat-option *ngFor = "let opt of freeUser" [value] = "opt.utente_id">
+                                                        {{opt.email}}
+                                                        </mat-option>
+                                                </mat-select>                                      
+                                        </mat-form-field>
+                
+                                <button *ngIf="!newStudent" [disabled]="!studentForm.valid" title="edit student"  class="btn-edit" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="accent" (click)="editStudent()" >Edit</button>
+                                <button *ngIf="!newStudent" [disabled]="!studentForm.valid" title="delete student"   style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="warn" (click)="deleteStudent()" >Delete</button>
+
+                                <button *ngIf="newStudent"  [disabled]="!studentForm.valid" title="add student"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="primary" (click)="addStudent()" >Add</button>
+                
+                
+                                </div>
+                        </form>
+                </mat-tab>
+        <mat-tab label="Account"> 
+                        <div *ngIf=" hasAccount" class="account-container">
+                                <mat-form-field>
+                                <input autocomplete="off" matInput placeholder="Id" value="{{data.user.utente_id}}" readonly>
+                                </mat-form-field>         
+                                <mat-form-field>
+                                        <input autocomplete="off" matInput placeholder="Email" value="{{data.user.email}}" readonly>
+                                </mat-form-field>                
+                                
+                                <button mat-raised-button color="warn">Remove</button>
+                                
+                        </div>
+                        
+                        
+                </mat-tab>
+
+                <mat-tab label="Activity"> 
+                        <div *ngIf="hasActivity" class="account-container">
+                                <mat-list>
+                                        <div *ngFor="let item of data.attivita">
+                                                <mat-list-item > <i class="material-icons"> arrow_right</i> {{item.attivita}} -- {{item.datainizio | date: 'MM/dd/yy'}} -- {{item.datafine | date: 'MM/dd/yy'}}</mat-list-item>
+                                                <mat-divider></mat-divider>
+                                        </div>
+                                </mat-list>
+                        </div>
+                        <div *ngIf="!hasActivity" class="account-container">
+                                <p>This student does not have any activity</p>                 
+                        </div>
+                </mat-tab>
+                <mat-tab label="Log"> 
+                        <div *ngIf="hasLog" class="logs-container">
+                                <mat-list>
+                                        <div *ngFor="let item of data.logs">
+                                                <mat-list-item > <i class="material-icons"> arrow_right</i>id:{{item.attivita_id}} - check-in:{{item.checkin | date: 'dd/MM/yyyy -  hh:mm a'}} - check-out:{{item.checkout | date: 'dd/MM/yyyy -  hh:mm a'}}</mat-list-item>
+                                                <mat-divider></mat-divider>
+                                        </div>
+                                </mat-list>
+                        </div>
+                        <div *ngIf="!hasLog" class="account-container">
+                                <p>This student does not have any Log</p>                 
+                        </div>
+                </mat-tab>
+        </mat-tab-group>
+        </div>
+</div>
+
+<mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="newStudent && newStudent!=null">
+        <mat-step [stepControl]="studentForm1">
+          <form [formGroup]="studentForm1">
+            <ng-template matStepLabel>Student</ng-template>
+                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                        <input autocomplete="off"  formControlName="name" class="form-control" matInput  placeholder="name" required>                                    
+                </mat-form-field>
+                <mat-form-field style="width: 80%; margin-top: 1%;">
+                        <input autocomplete="off"  formControlName="surname" class="form-control" matInput  placeholder="surname" required>                                   
+                </mat-form-field>
+            <div>
+              <button mat-raised-button color="primary" matStepperNext [disabled]="!studentForm1.valid">Next</button>
+            </div>
+          </form>
+        </mat-step>
+       
+        <mat-step [stepControl]="studentForm2">
+          <form [formGroup]="studentForm2">
+            <ng-template matStepLabel>Course</ng-template>
+            <mat-form-field>
+                <input autocomplete="off" formControlName="course" class="form-control" matInput  placeholder="course" required>                                   
+
+            </mat-form-field>
+            <div>
+              <button mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+              <button mat-raised-button color="primary" matStepperNext [disabled]="!studentForm2.valid">Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step  >
+                <mat-checkbox class = "tp-margin" [(ngModel)] = "newAccount">New account</mat-checkbox>
+               
+                        <ng-template matStepLabel>Account</ng-template>  
+                        <div>
+                          <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important; margin-top: 18px;">Back</button>
+                          <button  mat-raised-button color="primary" matStepperNext  >Next</button>
+                        </div>
+                
+        </mat-step>
+        <mat-step [stepControl]="accountForm" *ngIf="!newAccount">
+                <form [formGroup]="accountForm">
+                  <ng-template matStepLabel>Account</ng-template>                
+                      <mat-form-field *ngIf="!newAccount">
+                      <mat-select   placeholder = "account"  formControlName= "user" name = "user">
+                        <mat-option *ngFor = "let opt of freeUser" [value] = "opt.utente_id">
+                        {{opt.email}}
+                        </mat-option>
+                </mat-select>                                           
+      
+                  </mat-form-field >
+                 
+                  <div>
+                    <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                    <button  mat-raised-button color="primary" matStepperNext [disabled]="!accountForm.valid">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+
+              <mat-step [stepControl]="userForm" *ngIf="newAccount">
+                <form [formGroup]="userForm">
+                  <ng-template matStepLabel>Account</ng-template>  
+                      <mat-form-field *ngIf="newAccount">
+                        <input autocomplete="off"  formControlName="email" class="form-control" matInput  placeholder="email" required>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="newAccount">
+                        <input autocomplete="off"  formControlName="password" class="form-control" matInput  placeholder="password" required>
+                  </mat-form-field>
+                  <div>
+                    <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                    <button  mat-raised-button color="primary" matStepperNext [disabled]="!userForm.valid" (click)="addUser()">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          You are now done.
+          <div>
+            <button mat-button matStepperPrevious style="margin-right: 9px !important;">Back</button>
+            <button mat-button (click)="stepper.reset()" style="margin-right: 9px !important;">Reset</button>    
+            <button  mat-raised-button color="primary" [disabled]="!accountForm.valid && !studentForm2.valid && !studentForm1.valid && isCreated == false" (click)="addStudent()">Add</button>      
+        </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+
+      <div *ngIf="newStudent==null" >
+        <mat-horizontal-stepper [linear]="isLinear" #stepper >
+                <mat-step >
+                    <ng-template matStepLabel>Student</ng-template>
+                        <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                <input matInput [(ngModel)]="studId" placeholder="Id" readonly>
+                        </mat-form-field>
+                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                <input matInput [(ngModel)]="studName" placeholder="name" readonly>
+                        </mat-form-field>
+                        <mat-form-field style="width: 80%; margin-top: 1%;">
+                                <input matInput [(ngModel)]="studLastN" placeholder="surname" readonly>
+                        </mat-form-field>
+                    <div>
+                      <button mat-raised-button color="primary" matStepperNext >Next</button>
+                    </div>
+                </mat-step>
+               
+              <!--  <mat-step *ngIf="hasAct" >
+                    <ng-template matStepLabel>Last Activity</ng-template>
+                    <mat-form-field style="width: 80%; margin-top: 1%;">
+                        <input matInput [(ngModel)]="lastAct.attivita" placeholder="name" readonly >
+                    </mat-form-field >
+                    <mat-form-field style="width: 80%; margin-top: 1%;">
+                        <input matInput [(ngModel)]="actStart" placeholder="start date" readonly>
+                    </mat-form-field>
+                    <mat-form-field style="width: 80%; margin-top: 1%;">
+                        <input matInput [(ngModel)]="actEnd" placeholder="end date" readonly>
+                    </mat-form-field>
+                    <div>
+                      <button mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                      <button mat-raised-button color="primary" matStepperNext>Next</button>
+                    </div>
+                </mat-step>-->
+
+                <mat-step [stepControl]="assignActForm" >
+                        <form [formGroup]="assignActForm">
+                          <ng-template matStepLabel>Activity</ng-template>                
+                              <mat-form-field >
+                              <mat-select   placeholder = "activity"  formControlName= "id_attivita" name = "activity">
+                                <mat-option *ngFor = "let opt of listOfAct" [value] = "opt.attivita_id" (click)="actSel(opt)">
+                                {{opt.attivita}}
+                                </mat-option>
+                        </mat-select>                                           
+              
+                          </mat-form-field >
+                          <mat-form-field *ngIf="actSelected">
+                                <input matInput [(ngModel)]="actStartSelected" placeholder="start date" readonly [ngModelOptions]="{standalone: true}">
+                          </mat-form-field>
+                          <mat-form-field *ngIf="actSelected">
+                                <input matInput [(ngModel)]="actEndSelected" placeholder="end date" readonly [ngModelOptions]="{standalone: true}">
+                          </mat-form-field>
+                          <div>
+                            <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                            <button  mat-raised-button color="primary" matStepperNext [disabled]="!assignActForm.valid" (click)="getOneActivity()">Next</button>
+                          </div>
+                        </form>
+                      </mat-step>
+        
+                     
+                <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  You are now done.
+                  <div>
+                    <button mat-button matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                    <button mat-button (click)="stepper.reset()" style="margin-right: 9px !important;">Reset</button>    
+                    <button *ngIf="done" mat-raised-button color="primary" [disabled]="!assignActForm.valid " (click)="assign()">Add</button>      
+                </div>
+                </mat-step>
+              </mat-horizontal-stepper>
+      </div>
+</div>

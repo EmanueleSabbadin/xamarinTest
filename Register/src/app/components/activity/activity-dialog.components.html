@@ -1,0 +1,133 @@
+<div *ngIf="!newAct">
+<h1 *ngIf="!newAct" mat-dialog-title> Activity: {{data.attivita}}</h1>
+<h1 *ngIf="newAct" mat-dialog-title> New activity</h1>
+<div mat-dialog-content>
+  <mat-tab-group>
+        <mat-tab label="Activity" > 
+                <form [formGroup]="activityForm" class="tab">
+                        <div class="form_container form-group ">
+                                <mat-form-field style="width: 80%; margin-top: 1%;">
+                                        <input [class.is-invalid]="activityForm.errors" formControlName="attivita" class="form-control" matInput  placeholder="name" required>                                    
+                                </mat-form-field>            
+                                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                        <input matInput [class.is-invalid]="activityForm.errors" formControlName="datainizio" class="form-control"   placeholder="Choose a date" readonly>
+                                        <!--<mat-datepicker-toggle matSuffix [for]="start_picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #start_picker ></mat-datepicker>-->
+                                </mat-form-field>
+                                <mat-form-field style="width: 80%; margin-top: 1%;">
+                                        <input matInput [class.is-invalid]="activityForm.errors" formControlName="datafine" class="form-control"   placeholder="Choose a date" readonly>
+                                        <!--<mat-datepicker-toggle matSuffix [for]="end_picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #end_picker ></mat-datepicker>-->
+                                </mat-form-field>
+                                <mat-form-field style="width: 80%; margin-top: 1%;">
+                                        <mat-select  placeholder="place" required formControlName="luogo_id" class="form-control" required [class.is-invalid]="activityForm.errors">
+                                                <mat-option *ngFor = "let opt of lacations" [value] = "opt.location_id" >
+                                                        {{opt.name}}
+                                                </mat-option>   
+                                        </mat-select>
+                                            
+                                </mat-form-field>
+                                
+            
+                            <button *ngIf="!newAct" [disabled]="!activityForm.valid" title="edit activity"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%; margin-right:5px"  mat-raised-button color="accent" (click)="editAct()" >Edit</button>
+                            <button *ngIf="!newAct"  title="delete activity"  class="btn_add" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="warn" (click)="deleteAct()" >Delete</button>
+            
+          
+                        </div>
+                    </form>
+         </mat-tab>
+         <mat-tab label="Location"> 
+                <div *ngIf="hasLocation" class="account-container">
+                        <mat-form-field>
+                                <input autocomplete="off" matInput placeholder="name" value="{{data.Location.name}}" readonly>
+                                </mat-form-field>         
+                                <mat-form-field>
+                                        <input autocomplete="off" matInput placeholder="adress" value="{{data.Location.address}}" readonly>
+                                </mat-form-field>   
+                                <mat-form-field>
+                                        <input autocomplete="off" matInput placeholder="type" value="{{data.Location.type.type}}" readonly>
+                                </mat-form-field>              
+                </div>
+                <div *ngIf="!hasLocation" class="account-container">
+                    <p>This activity does not have any associated location</p>                   
+                </div>
+        </mat-tab>
+        <mat-tab label="Students"> 
+                <div *ngIf=" hasStudents" class="account-container">
+
+                        <mat-list>
+                                <div *ngFor="let item of data.studenti">
+                                        <mat-list-item >{{item.matricola}} - {{item.nome}} {{item.cognome}}</mat-list-item>
+                                        <mat-divider></mat-divider>
+                                </div>
+                        </mat-list>
+                </div>
+               <div *ngIf="!hasStudents" class="account-container">
+                    <p>This activity does not have any associated students</p>                     
+                </div>
+        </mat-tab>
+
+      </mat-tab-group>
+</div>
+</div> 
+<div *ngIf="newAct">
+        <mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="newAct">
+                <mat-step [stepControl]="newActForm1">
+                  <form [formGroup]="newActForm1">
+                    <ng-template matStepLabel>Activity Name</ng-template>
+                        <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                <input autocomplete="off"  formControlName="attivita" class="form-control" matInput  placeholder="name" required>                                    
+                        </mat-form-field>
+                    <div>
+                      <button mat-raised-button color="primary" matStepperNext [disabled]="!newActForm1.valid">Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+               
+                <mat-step [stepControl]="newActForm2">
+                  <form [formGroup]="newActForm2">
+                    <ng-template matStepLabel>Dates</ng-template>
+                    <mat-form-field>
+                        <input matInput  formControlName="datainizio" class="form-control"   [matDatepicker]="checkin_picker" placeholder="start date">
+                        <mat-datepicker-toggle matSuffix [for]="checkin_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #checkin_picker></mat-datepicker>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput  formControlName="datafine" class="form-control"   [matDatepicker]="checkout_picker" placeholder="start date">
+                        <mat-datepicker-toggle matSuffix [for]="checkout_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #checkout_picker></mat-datepicker>
+                      </mat-form-field>
+                    <div>
+                      <button mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                      <button mat-raised-button color="primary" matStepperNext [disabled]="!newActForm2.valid">Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="newActForm3" >
+                        <form [formGroup]="newActForm3">
+                                <ng-template matStepLabel>Location</ng-template>  
+                                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                        <mat-select   placeholder = "location"  formControlName= "luogo_id" name = "location" required>
+                                                <mat-option *ngFor = "let opt of lacations" [value] = "opt.location_id">
+                                                {{opt.name}}
+                                                </mat-option>
+                                        </mat-select>   
+                                </mat-form-field>
+                                <div>
+                                  <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important; margin-top: 18px;">Back</button>
+                                  <button  mat-raised-button color="primary" matStepperNext  >Next</button>
+                                </div>
+                              </form>
+                        
+                </mat-step>
+        <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  You are now done.
+                  <div>
+                    <button mat-button matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                    <button mat-button (click)="stepper.reset()" style="margin-right: 9px !important;">Reset</button>    
+                    <button  mat-raised-button color="primary" [disabled]="!newActForm1.valid && !newActForm2.valid && !newActForm2.valid" (click)="createNewAct()">Add</button>      
+                </div>
+                </mat-step>
+              </mat-horizontal-stepper>
+</div> 

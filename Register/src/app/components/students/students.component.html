@@ -1,0 +1,100 @@
+<mat-card class = "tp-card">
+        <mat-card-header class="tp-card-header">
+           <div mat-card-avatar class = "tp-header-image"></div>
+           <mat-card-title>Students</mat-card-title>
+           <mat-card-subtitle>
+                registry management</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="students-tab">
+            <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Filter 
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="filetr">
+                      <form [formGroup]="filterStudForm" class="tab">
+                        <mat-form-field>
+                        <input type="number" matInput placeholder="id" formControlName="registration_number" class="form-control">
+                      </mat-form-field>
+                      <mat-form-field>
+                          <input matInput placeholder="name" formControlName="name" class="form-control">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="surname" formControlName="surname" class="form-control">
+                          </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="course" formControlName="course" class="form-control">
+                      </mat-form-field>
+                        <button type="submit" title="search" mat-raised-button color="primary" (click)="getFilterStud()" class="btn-filter"><i class="material-icons">
+                                search
+                        </i></button>
+                        <button type="submit" title="search" mat-raised-button color="warn" (click)="removeFilter()"><i class="material-icons " >
+                          remove_circle
+                  </i></button>
+                      </form>
+                    </div>
+                 
+                </mat-expansion-panel>
+                
+              </mat-accordion>
+          <div class="table-height" >
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                
+
+                <!-- id Column -->
+                <ng-container matColumnDef="ID">
+                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.matricola}} </td>
+                  </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="Name">
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+                </ng-container>
+
+                <!-- Sutrname Column -->
+                <ng-container matColumnDef="Surname">
+                    <th mat-header-cell *matHeaderCellDef> Surname </th>
+                    <td mat-cell *matCellDef="let element"> {{element.cognome}} </td>
+                  </ng-container>
+              
+                <!-- mail Column -->
+                <ng-container matColumnDef="Account">
+                  <th mat-header-cell *matHeaderCellDef> Account </th>
+                  <td mat-cell *matCellDef="let element"> {{element.utenza}} </td>
+                </ng-container>
+
+                <!-- mail Column -->
+                <ng-container matColumnDef="Course">
+                  <th mat-header-cell *matHeaderCellDef> Course </th>
+                  <td mat-cell *matCellDef="let element"> {{element.corso}} </td>
+                </ng-container>
+              
+                <!-- more Column -->
+                <ng-container matColumnDef="More">
+                  <th mat-header-cell *matHeaderCellDef> More </th>
+                  <td mat-cell *matCellDef="let element"> <i (click)="openDialog(element)" class="material-icons more-icons table_icons">more_horiz</i> </td>
+                </ng-container>
+
+                <!-- activity Column -->
+                <ng-container matColumnDef="Activity">
+                  <th mat-header-cell *matHeaderCellDef> Activity </th>
+                  <td mat-cell *matCellDef="let element"><i class="material-icons more-icons table_icons" (click)="openDialogAssign(element)"> add_circle</i></td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+        </mat-card-content>
+      <mat-card-footer class="student-footer">
+        <button title="new student" class="student-add" mat-fab (click)="openDialogNew()"> <i class="material-icons">add_circle_outline</i> </button>
+      </mat-card-footer>
+     </mat-card>

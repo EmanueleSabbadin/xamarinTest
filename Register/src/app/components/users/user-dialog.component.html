@@ -1,0 +1,87 @@
+<div *ngIf="!newAccount">
+<h1 *ngIf="!newAccount" mat-dialog-title> Student: {{data.utente_id}}</h1>
+<h1 *ngIf="newAccount" mat-dialog-title> New student</h1>
+<div mat-dialog-content>
+  <mat-tab-group>
+        <mat-tab label="Account" > 
+                <form [formGroup]="userForm" class="tab">
+                        <div class="form_container form-group ">                               
+            
+                               <mat-form-field  style="width: 80%; margin-top: 1%;">                                    
+                                        <mat-select  placeholder = "role"  formControlName= "Role_id" name = "role">
+                                                <mat-option *ngFor = "let opt of roles" [value] = "opt.role_id">
+                                                {{opt.role}}
+                                                </mat-option>
+                                        </mat-select>                                    
+                                </mat-form-field>
+                                <mat-form-field style="width: 80%; margin-top: 1%;">
+                                        <textarea [class.is-invalid]="userForm.errors" formControlName="email" class="form-control" matInput  placeholder="email" required></textarea>                                    
+                                </mat-form-field>
+                                <mat-form-field *ngIf="newAccount" style="width: 80%; margin-top: 1%;">
+                                        <textarea [class.is-invalid]="userForm.errors" formControlName="password" class="form-control" matInput  placeholder="password" required></textarea>                                    
+                                </mat-form-field>
+            
+                                <button *ngIf="!newAccount" [disabled]="!userForm.valid" title="Edit User"  class="btn-edit" style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="accent" (click)="editUser()" >Edit</button>
+                                <button *ngIf="!newAccount" [disabled]="!userForm.valid" title="Delete User"   style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="warn" (click)="deleteUser()" >Delete</button>
+                                <button *ngIf="newAccount"  [disabled]="!userForm.valid" title="add User"   style="width: 30%; margin-top: 3%;  margin-bottom: 2%"  mat-raised-button color="primary" (click)="addUser()" >Add</button>
+            
+           
+                        </div>
+                    </form>
+         </mat-tab>
+
+      </mat-tab-group>
+</div>
+</div>
+<div *ngIf="newAccount">
+        <mat-horizontal-stepper [linear]="isLinear" #stepper >
+                <mat-step [stepControl]="newUserForm1" >
+                    <form [formGroup]="newUserForm1">
+                        <ng-template matStepLabel>Email</ng-template>
+                                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                        <input autocomplete="off" matInput formControlName="email" placeholder="email" >
+                                </mat-form-field>               
+                    </form>         
+                      <button mat-raised-button color="primary" matStepperNext [disabled]="!newUserForm1.valid" >Next</button>                   
+                </mat-step>
+                <mat-step [stepControl]="newUserForm2" >
+                        <form [formGroup]="newUserForm2">
+                            <ng-template matStepLabel>Password</ng-template>
+                                <mat-form-field  style="width: 80%; margin-top: 1%;">
+                                        <input autocomplete="off" matInput formControlName="password" placeholder="password" >
+                                </mat-form-field>               
+                        </form>         
+                          <button mat-raised-button color="primary" matStepperNext [disabled]="!newUserForm2.valid">Next</button>                   
+                </mat-step>               
+
+                <mat-step [stepControl]="newUserForm3" >
+                        <form [formGroup]="newUserForm3">
+                          <ng-template matStepLabel>Role</ng-template>                
+                              <mat-form-field >
+                                <mat-select  placeholder = "role"  formControlName= "Role_id" name = "role">
+                                        <mat-option *ngFor = "let opt of roles" [value] = "opt.role_id">
+                                        {{opt.role}}
+                                        </mat-option>
+                                </mat-select>                                  
+              
+                          </mat-form-field >
+                         
+                          <div>
+                            <button  mat-raised-button color="warn" matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                            <button  mat-raised-button color="primary" matStepperNext [disabled]="!newUserForm3.valid">Next</button>
+                          </div>
+                        </form>
+                      </mat-step>
+        
+                     
+                <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  You are now done.
+                  <div>
+                    <button mat-button matStepperPrevious style="margin-right: 9px !important;">Back</button>
+                    <button mat-button (click)="stepper.reset()" style="margin-right: 9px !important;">Reset</button>    
+                    <button  mat-raised-button color="primary" [disabled]="!newUserForm1.valid && !newUserForm2.valid && !newUserForm3.valid" (click)="addUser()">Add</button>      
+                </div>
+                </mat-step>
+              </mat-horizontal-stepper>
+</div>
